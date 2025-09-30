@@ -1,0 +1,5 @@
+torch==2.7.0
+tiktoken>=0.5.1
+matplotlib>=3.7.1
+tensorflow >= 2.18.0
+jupyterlab >= 4.0
