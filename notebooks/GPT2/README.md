@@ -1,80 +1,69 @@
-# GPT2 Implementation Notebooks
+# GPT-2 Implementation from Scratch
 
-This folder contains a complete implementation of a GPT-2 model built from scratch using PyTorch. Each notebook focuses on a specific component of the transformer architecture.
+A complete educational implementation of GPT-2 built from scratch using PyTorch. Each notebook focuses on a specific component of the transformer architecture with detailed explanations and verbose debugging output.
 
-## Notebooks Overview
+## Notebooks
 
-### 01. DataPreparation.ipynb
-**Purpose**: Data preprocessing and tokenization
-- **GPTDataset**: Custom dataset class that tokenizes text and creates training pairs using sliding window approach
-- **DataLoader**: Wrapper function for batch creation with configurable stride and context length
-- **Embedder**: Demonstration token and positional embedding implementation
-- **Key Features**: Uses tiktoken for GPT-2 compatible tokenization, creates input-target pairs shifted by 1 position
+| Notebook | Content | Key Components |
+|----------|---------|----------------|
+| **01. DataPreparation** | Text preprocessing and tokenization | GPTDataset, DataLoader, Token embeddings |
+| **02. MultiHeadAttention** | Attention mechanism | Causal self-attention, Multi-head attention, Scaled dot-product |
+| **03. Normalization** | Layer normalization | LayerNorm with learnable scale/shift |
+| **04. FeedForward** | Feed-forward network | GELU activation, 4x expansion MLP |
+| **05. TransformerBlock** | Complete transformer block | Pre-norm architecture, Residual connections |
+| **06. GPTModel** | Full GPT model | Token generation, Autoregressive decoding |
+| **07. Loss, Cross Entropy** | Loss calculation and evaluation | Cross-entropy loss, Perplexity, Manual vs PyTorch comparison |
+| **08. Training** | Model training loop | Training/validation split, Optimizer, Weight updates |
 
-### 02. MultiHeadAttention.ipynb
-**Purpose**: Attention mechanism implementation
-- **CausalSelfAttention**: Single attention head with causal masking
-- **MultiHeadAttention**: Complete multi-head attention with verbose debugging output
-- **Key Features**: Scaled dot-product attention, causal masking, dropout, head concatenation
-- **Detailed Logging**: Step-by-step attention computation with intermediate results
+## Architecture
 
-### 03. Normalization.ipynb
-**Purpose**: Layer normalization implementation
-- **LayerNorm**: Custom layer normalization with learnable scale and shift parameters
-- **Key Features**: Normalizes to mean=0, variance=1, with epsilon for numerical stability
-- **Debugging**: Verbose output showing normalization statistics
+**Standard GPT-2 transformer architecture:**
+1. Token + positional embeddings
+2. N transformer blocks (self-attention → feed-forward with residual connections)
+3. Final layer normalization → output projection to vocabulary
 
-### 04. FeedForward.ipynb
-**Purpose**: Feed-forward network with GELU activation
-- **GELU**: Custom implementation of Gaussian Error Linear Unit activation
-- **FeedForward**: Two-layer MLP with 4x hidden dimension expansion
-- **Visualization**: Comparison plots between GELU and ReLU activation functions
-
-### 05. TransformerBlock.ipynb
-**Purpose**: Complete transformer block assembly
-- **TransformerBlock**: Combines attention, normalization, and feed-forward layers
-- **Architecture**: Pre-norm design with residual connections
-- **Key Features**: Dropout, skip connections, detailed forward pass logging
-
-### 06. GPTModel.ipynb
-**Purpose**: Complete GPT model implementation
-- **GPTModel**: Full transformer model with embedding layers and output head
-- **Token Generation**: Implements autoregressive text generation
-- **Key Features**:
-  - Token and positional embeddings
-  - Multiple transformer blocks in sequence
-  - Final normalization and output projection
-  - Configurable model parameters (124M parameter config included)
-
-## Model Architecture
-
-The implementation follows the standard GPT-2 architecture:
-1. **Input Processing**: Token + positional embeddings with dropout
-2. **Transformer Blocks**: N layers of self-attention + feed-forward with residual connections
-3. **Output**: Final layer norm + linear projection to vocabulary
-
-## Key Features
-
-- **Verbose Debugging**: All components include detailed logging for educational purposes
-- **Causal Masking**: Ensures autoregressive behavior in attention
-- **Configurable**: Model size and hyperparameters easily adjustable
-- **Educational Focus**: Clear separation of concerns with extensive documentation
-
-## Configuration
-
-Default GPT-2 124M parameter configuration:
+**Default configuration (GPT-2 124M):**
 ```python
-GPT_CONFIG_124M = {
-    "vocab_size": 50257,
-    "context_length": 1024,
-    "emb_dim": 768,
-    "n_heads": 12,
-    "n_layers": 12,
-    "drop_rate": 0.1,
-    "qkv_bias": False
+{
+    "vocab_size": 50257,      # GPT-2 vocabulary
+    "context_length": 256,    # Max sequence length
+    "emb_dim": 768,           # Embedding dimension
+    "n_heads": 12,            # Attention heads
+    "n_layers": 12,           # Transformer blocks
+    "drop_rate": 0.1,         # Dropout rate
+    "qkv_bias": False         # Query-Key-Value bias
 }
 ```
 
+## Key Features
+
+- **Educational focus**: Clear explanations with verbose debugging output
+- **Modular design**: Each component in separate notebook
+- **Manual implementations**: Loss calculation, embeddings, attention from scratch
+- **Validation**: Compare custom implementations against PyTorch built-ins
+- **Visualization**: Training curves, activation functions, loss vs perplexity
+
+## Usage
+
+Notebooks are designed to be run sequentially. Each imports and reuses components from previous notebooks using `%run`.
+
+```python
+%run "01. DataPreparation.ipynb"  # Import dataset utilities
+%run "06. GPTModel.ipynb"         # Import model
+```
+
+## Reference
+
+This implementation is based on concepts from:
+
+**Raschka, Sebastian.** *Build a Large Language Model (From Scratch)*. Manning Publications, 2024.
+ISBN: 978-1633437166
+GitHub: https://github.com/rasbt/LLMs-from-scratch
+
 ## Dependencies
 
-See `requirements.txt` for required packages.
+- PyTorch
+- tiktoken (GPT-2 tokenizer)
+- matplotlib (visualizations)
+
+See `requirements.txt` for complete list.
