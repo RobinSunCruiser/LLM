@@ -11,3 +11,6 @@ ipython_config.py
 
 # PyTorch model files
 *.pth
+
+# GPT-2 model weights
+gpt2/
