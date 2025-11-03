@@ -8,3 +8,6 @@
 # IPython
 profile_default/
 ipython_config.py
+
+# PyTorch model files
+*.pth
